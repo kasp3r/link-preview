@@ -188,7 +188,8 @@ class GeneralParser implements ParserInterface
         if (empty($data['title'])) {
             /** @var \DOMElement $title */
             foreach ($doc->getElementsByTagName('title') as $title) {
-                $data['title'] = $title->nodeValue;
+                $titleValue    = iconv('utf-8', 'ascii//TRANSLIT//IGNORE', $title->nodeValue);
+                $data['title'] = $titleValue;
             }
         }
 

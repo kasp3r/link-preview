@@ -24,7 +24,7 @@ class GeneralShopParser extends GeneralParser implements ParserInterface
         $nodes = $xpath->query('//*[@itemprop="price"]');
         if (count($nodes) > 0) {
             foreach ($nodes as $node) {
-                $data['prices'][] = $node->textContent;
+                $data['prices'][] =  $node->hasAttribute('content') ? $node->getAttribute('content') : $node->textContent;
             }
         }
         return $data;

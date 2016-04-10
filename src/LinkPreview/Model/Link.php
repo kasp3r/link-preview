@@ -24,6 +24,10 @@ class Link implements LinkInterface
      */
     private $image;
     /**
+     * @var array $images Urls to images
+     */
+    private $pictures;
+    /**
      * @var string $realUrl
      */
     private $realUrl;
@@ -111,6 +115,14 @@ class Link implements LinkInterface
     /**
      * @inheritdoc
      */
+    public function getPictures()
+    {
+        return $this->pictures;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function setImage($image)
     {
         $this->image = $image;
@@ -168,6 +180,16 @@ class Link implements LinkInterface
     public function setUrl($url)
     {
         $this->url = $url;
+
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setPictures(array $urls)
+    {
+        $this->pictures = $urls;
 
         return $this;
     }

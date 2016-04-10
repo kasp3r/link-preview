@@ -133,8 +133,9 @@ class GeneralParser implements ParserInterface
             $htmlData = $this->parseHtml($link->getContent());
 
             $link->setTitle($htmlData['title'])
-                ->setDescription($htmlData['description'])
-                ->setImage($htmlData['image']);
+                 ->setDescription($htmlData['description'])
+                 ->setImage($htmlData['image'])
+                 ->setPictures($htmlData['pictures']);
         } elseif (!strncmp($link->getContentType(), 'image/', strlen('image/'))) {
             $link->setImage($link->getRealUrl());
         }
@@ -150,9 +151,10 @@ class GeneralParser implements ParserInterface
     protected function parseHtml($html)
     {
         $data = [
-            'image' => '',
-            'title' => '',
-            'description' => ''
+          'image' => '',
+          'title' => '',
+          'description' => '',
+          'pictures' => []
         ];
 
         libxml_use_internal_errors(true);
@@ -182,6 +184,14 @@ class GeneralParser implements ParserInterface
             }
             if ($meta->getAttribute('property') === 'og:description') {
                 $data['description'] = $meta->getAttribute('content');
+            }
+        }
+
+        foreach ($doc->getElementsByTagName('img') as $img) {
+            if ( ($src = $img->getAttribute('src')) && (
+                (strtolower(substr($src, -4)) === '.jpg') || (strtolower(substr($src, -5)) === '.jpeg')
+              )){
+                array_push($data['pictures'], $src);
             }
         }
 

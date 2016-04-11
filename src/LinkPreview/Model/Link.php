@@ -36,6 +36,10 @@ class Link implements LinkInterface
      */
     private $title;
     /**
+     * @var string $pageTitle Page title
+     */
+    private $pageTitle;
+    /**
      * @var string $url
      */
     private $url;
@@ -162,6 +166,24 @@ class Link implements LinkInterface
     public function setTitle($title)
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPageTitle()
+    {
+        return $this->pageTitle;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setPageTitle($title)
+    {
+        $this->pageTitle = $title;
 
         return $this;
     }

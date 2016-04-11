@@ -50,6 +50,12 @@ interface LinkInterface
     public function getTitle();
 
     /**
+     * Get page title
+     * @return string
+     */
+    public function getPageTitle();
+
+    /**
      * Get website url
      * @return string
      */
@@ -96,6 +102,13 @@ interface LinkInterface
      * @return $this
      */
     public function setTitle($title);
+
+    /**
+     * Set title
+     * @param string $title
+     * @return $this
+     */
+    public function setPageTitle($title);
 
     /**
      * Set website url

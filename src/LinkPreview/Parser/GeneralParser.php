@@ -133,6 +133,7 @@ class GeneralParser implements ParserInterface
             $htmlData = $this->parseHtml($link->getContent());
 
             $link->setTitle($htmlData['title'])
+                 ->setPageTitle($htmlData['pageTitle'])
                  ->setDescription($htmlData['description'])
                  ->setImage($htmlData['image'])
                  ->setPictures($htmlData['pictures']);
@@ -199,6 +200,14 @@ class GeneralParser implements ParserInterface
             /** @var \DOMElement $title */
             foreach ($doc->getElementsByTagName('title') as $title) {
                 $data['title'] = $title->nodeValue;
+                $data['pageTitle'] = $title->nodeValue;
+                break;
+            }
+        }
+        else{
+            foreach ($doc->getElementsByTagName('title') as $title) {
+                $data['pageTitle'] = $title->nodeValue;
+                break;
             }
         }
 

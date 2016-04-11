@@ -32,6 +32,12 @@ interface LinkInterface
     public function getImage();
 
     /**
+     * Get image url
+     * @return string
+     */
+    public function getPictures();
+
+    /**
      * Get real url after all redirects
      * @return string
      */
@@ -42,6 +48,12 @@ interface LinkInterface
      * @return string
      */
     public function getTitle();
+
+    /**
+     * Get page title
+     * @return string
+     */
+    public function getPageTitle();
 
     /**
      * Get website url
@@ -92,9 +104,23 @@ interface LinkInterface
     public function setTitle($title);
 
     /**
+     * Set title
+     * @param string $title
+     * @return $this
+     */
+    public function setPageTitle($title);
+
+    /**
      * Set website url
      * @param string $url
      * @return $this
      */
     public function setUrl($url);
+
+    /**
+     * Set website pictures
+     * @param string $url
+     * @return $this
+     */
+    public function setPictures(array $urls);
 }

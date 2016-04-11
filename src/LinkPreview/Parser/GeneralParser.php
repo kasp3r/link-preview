@@ -133,8 +133,10 @@ class GeneralParser implements ParserInterface
             $htmlData = $this->parseHtml($link->getContent());
 
             $link->setTitle($htmlData['title'])
-                ->setDescription($htmlData['description'])
-                ->setImage($htmlData['image']);
+                 ->setPageTitle($htmlData['pageTitle'])
+                 ->setDescription($htmlData['description'])
+                 ->setImage($htmlData['image'])
+                 ->setPictures($htmlData['pictures']);
         } elseif (!strncmp($link->getContentType(), 'image/', strlen('image/'))) {
             $link->setImage($link->getRealUrl());
         }
@@ -150,9 +152,10 @@ class GeneralParser implements ParserInterface
     protected function parseHtml($html)
     {
         $data = [
-            'image' => '',
-            'title' => '',
-            'description' => ''
+          'image' => '',
+          'title' => '',
+          'description' => '',
+          'pictures' => []
         ];
 
         libxml_use_internal_errors(true);
@@ -185,10 +188,26 @@ class GeneralParser implements ParserInterface
             }
         }
 
+        foreach ($doc->getElementsByTagName('img') as $img) {
+            if ( ($src = $img->getAttribute('src')) && (
+                (strtolower(substr($src, -4)) === '.jpg') || (strtolower(substr($src, -5)) === '.jpeg')
+              )){
+                array_push($data['pictures'], $src);
+            }
+        }
+
         if (empty($data['title'])) {
             /** @var \DOMElement $title */
             foreach ($doc->getElementsByTagName('title') as $title) {
                 $data['title'] = $title->nodeValue;
+                $data['pageTitle'] = $title->nodeValue;
+                break;
+            }
+        }
+        else{
+            foreach ($doc->getElementsByTagName('title') as $title) {
+                $data['pageTitle'] = $title->nodeValue;
+                break;
             }
         }
 

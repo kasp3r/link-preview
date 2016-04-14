@@ -5,7 +5,7 @@ A PHP library to easily get website information (title, description, image...) f
 
 ## Dependencies
 
-* PHP >= 5.5
+* PHP >= 5.6 (without phpunit it should work on 5.5)
 * Guzzle
 
 ## Installation

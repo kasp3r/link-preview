@@ -2,7 +2,9 @@
 
 namespace LinkPreview\Reader;
 
-use Guzzle\Http\Client;
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+use GuzzleHttp\TransferStats;
 use LinkPreview\Model\LinkInterface;
 
 /**
@@ -25,7 +27,7 @@ class GeneralReader implements ReaderInterface
     public function getClient()
     {
         if (!$this->client) {
-            $this->client = new Client();
+            $this->client = new Client([RequestOptions::COOKIES => true]);
         }
 
         return $this->client;
@@ -65,12 +67,25 @@ class GeneralReader implements ReaderInterface
         $link = $this->getLink();
 
         $client = $this->getClient();
-        $client->setBaseUrl($link->getUrl());
-        $response = $client->get()->send();
+        $response = $client->request(
+            'GET',
+            $link->getUrl(),
+            [
+                'on_stats' => function (TransferStats $stats) use (&$effectiveUrl) {
+                    $effectiveUrl = $stats->getEffectiveUri();
+                }
+            ]
+        );
 
-        $link->setContent($response->getBody(true))
-            ->setContentType($response->getContentType())
-            ->setRealUrl($response->getEffectiveUrl());
+        $headerContentType = $response->getHeader('content-type');
+        $contentType = '';
+        if (is_array($headerContentType) && count($headerContentType) > 0) {
+            $contentType = current(explode(';', current($headerContentType)));
+        }
+
+        $link->setContent((string)$response->getBody())
+            ->setContentType($contentType)
+            ->setRealUrl($effectiveUrl);
 
         return $link;
     }

@@ -24,6 +24,10 @@ class Link implements LinkInterface
      */
     private $image;
     /**
+     * @var array $pictures Urls to all images on a page
+     */
+    private $pictures;
+    /**
      * @var string $realUrl
      */
     private $realUrl;
@@ -170,5 +174,25 @@ class Link implements LinkInterface
         $this->url = $url;
 
         return $this;
+    }
+
+    /**
+     * @param array $pictures
+     * @return $this
+     */
+    public function setPictures($pictures)
+    {
+        $this->pictures = $pictures;
+
+        return $this;
+    }
+
+    /**
+     * Get Urls to all images on a page
+     * @return array
+     */
+    public function getPictures()
+    {
+        return $this->pictures;
     }
 }

@@ -5,7 +5,7 @@ A PHP library to easily get website information (title, description, image...) f
 
 ## Dependencies
 
-* PHP >= 5.4
+* PHP >= 5.6 (without phpunit it should work on 5.5)
 * Guzzle
 
 ## Installation
@@ -48,6 +48,7 @@ foreach ($parsed as $parserName => $link) {
     echo $link->getTitle() . PHP_EOL;
     echo $link->getDescription() . PHP_EOL;
     echo $link->getImage() . PHP_EOL;
+    print_r($link->getPictures());
 }
 ```
 
@@ -62,6 +63,14 @@ https://github.com/
 GitHub · Build software better, together.
 GitHub is the best place to build software together. Over 10.1 million people use GitHub to share code.
 https://assets-cdn.github.com/images/modules/open_graph/github-octocat.png
+Array
+(
+    [0] => https://assets-cdn.github.com/images/modules/site/home-ill-build.png?sn
+    [1] => https://assets-cdn.github.com/images/modules/site/home-ill-work.png?sn
+    [2] => https://assets-cdn.github.com/images/modules/site/home-ill-projects.png?sn
+    [3] => https://assets-cdn.github.com/images/modules/site/home-ill-platform.png?sn
+    [4] => https://assets-cdn.github.com/images/modules/site/org_example_nasa.png?sn
+)
 ```
 
 ###Youtube example

@@ -32,6 +32,12 @@ interface LinkInterface
     public function getImage();
 
     /**
+     * Get pictures urls
+     * @return array
+     */
+    public function getPictures();
+
+    /**
      * Get real url after all redirects
      * @return string
      */
@@ -76,6 +82,13 @@ interface LinkInterface
      * @return $this
      */
     public function setImage($image);
+
+    /**
+     * Set pictures urls
+     * @param array $pictures
+     * @return $this
+     */
+    public function setPictures($pictures);
 
     /**
      * Set real url after all redirects

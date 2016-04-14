@@ -9,8 +9,8 @@ class GeneralReaderTest extends \PHPUnit_Framework_TestCase
     public function testReadLink()
     {
         $responseMock = $this->getMock(
-            'Guzzle\Http\Message\Response',
-            ['getBody', 'getContentType', 'getEffectiveUrl'],
+            'GuzzleHttp\Psr7\Response',
+            ['getBody', 'getHeader'],
             [],
             '',
             false
@@ -19,27 +19,13 @@ class GeneralReaderTest extends \PHPUnit_Framework_TestCase
             ->method('getBody')
             ->will(self::returnValue('body'));
         $responseMock->expects(self::once())
-            ->method('getContentType')
-            ->will(self::returnValue('text/html'));
-        $responseMock->expects(self::once())
-            ->method('getEffectiveUrl')
-            ->will(self::returnValue('http://github.com'));
+            ->method('getHeader')
+            ->will(self::returnValue(array('text/html; UTF-8')));
 
-        $requestMock = $this->getMock(
-            'Guzzle\Http\Message\Request',
-            ['send'],
-            [],
-            '',
-            false
-        );
-        $requestMock->expects(self::once())
-            ->method('send')
-            ->will(self::returnValue($responseMock));
-
-        $clientMock = $this->getMock('Guzzle\Http\Client');
+        $clientMock = $this->getMock('GuzzleHttp\Client');
         $clientMock->expects(self::once())
-            ->method('get')
-            ->will(self::returnValue($requestMock));
+            ->method('request')
+            ->will(self::returnValue($responseMock));
 
         $linkMock = $this->getMock('LinkPreview\Model\Link', null);
 
@@ -50,6 +36,5 @@ class GeneralReaderTest extends \PHPUnit_Framework_TestCase
 
         self::assertEquals('body', $link->getContent());
         self::assertEquals('text/html', $link->getContentType());
-        self::assertEquals('http://github.com', $link->getRealUrl());
     }
 }

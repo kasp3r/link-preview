@@ -42,7 +42,7 @@ class GeneralParser implements ParserInterface
 
     /**
      * @param ReaderInterface $reader
-     * @param LinkInterface   $link
+     * @param LinkInterface $link
      */
     public function __construct(ReaderInterface $reader = null, LinkInterface $link = null)
     {
@@ -134,7 +134,8 @@ class GeneralParser implements ParserInterface
 
             $link->setTitle($htmlData['title'])
                 ->setDescription($htmlData['description'])
-                ->setImage($htmlData['image']);
+                ->setImage($htmlData['image'])
+                ->setPictures($htmlData['pictures']);
         } elseif (!strncmp($link->getContentType(), 'image/', strlen('image/'))) {
             $link->setImage($link->getRealUrl());
         }
@@ -152,7 +153,8 @@ class GeneralParser implements ParserInterface
         $data = [
             'image' => '',
             'title' => '',
-            'description' => ''
+            'description' => '',
+            'pictures' => [],
         ];
 
         libxml_use_internal_errors(true);
@@ -198,6 +200,10 @@ class GeneralParser implements ParserInterface
                     $data['description'] = $meta->getAttribute('content');
                 }
             }
+        }
+
+        foreach ($doc->getElementsByTagName('img') as $img) {
+            $data['pictures'][] = $img->getAttribute('src');
         }
 
         return $data;

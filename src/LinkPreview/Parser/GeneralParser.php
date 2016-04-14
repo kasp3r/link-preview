@@ -190,7 +190,7 @@ class GeneralParser implements ParserInterface
         if (empty($data['title'])) {
             /** @var \DOMElement $title */
             foreach ($doc->getElementsByTagName('title') as $title) {
-                $data['title'] = $title->nodeValue;
+                $data['title'] = trim($title->nodeValue);
             }
         }
 

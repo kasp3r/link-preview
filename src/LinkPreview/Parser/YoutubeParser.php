@@ -143,7 +143,7 @@ class YoutubeParser implements ParserInterface
 
         libxml_use_internal_errors(true);
         $doc = new \DOMDocument();
-        $doc->loadHTML($html);
+        $doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
 
         /** @var \DOMElement $meta */
         foreach ($doc->getElementsByTagName('meta') as $meta) {

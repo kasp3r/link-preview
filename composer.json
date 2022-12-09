@@ -1,5 +1,5 @@
 {
-    "name": "kasp3r/link-preview",
+    "name": "freegle/link-preview",
     "type": "library",
     "description": "Link preview library for PHP",
     "keywords": ["php","url","scraping"],

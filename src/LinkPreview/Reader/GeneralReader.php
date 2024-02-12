@@ -27,7 +27,8 @@ class GeneralReader implements ReaderInterface
     public function getClient()
     {
         if (!$this->client) {
-            $this->client = new Client([RequestOptions::COOKIES => true]);
+            // Add a 30s timeout as a fallback - some sites block us indefinitely and never return.
+            $this->client = new Client([RequestOptions::COOKIES => true, timeout => 30]);
         }
 
         return $this->client;
